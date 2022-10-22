@@ -8,11 +8,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
-});
+import { genMeta } from "./meta"
+
+export const meta: MetaFunction = genMeta()
 
 export default function App() {
   return (
@@ -25,7 +23,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+        {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
   );
