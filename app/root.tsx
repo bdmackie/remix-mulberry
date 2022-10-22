@@ -10,7 +10,12 @@ import {
 
 import { genMeta } from "./meta"
 
-export const meta: MetaFunction = genMeta()
+import styles from "~/styles/app.css"
+
+export const meta: MetaFunction = genMeta("")
+export function links() {
+  return [{ rel: "stylesheet", href: styles }]
+}
 
 export default function App() {
   return (
