@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { userNavigation } from "./AppHeader";
+import { userNavigation } from "~/meta";
+import type { IUserProfile } from "~/meta"
 import { classNames } from "../util";
-import type { IUserProfile } from "./AppHeader"
 
 export function ProfileAvatarMenu({ name, email, imageUrl }: IUserProfile) {
   return (

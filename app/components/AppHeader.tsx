@@ -5,37 +5,13 @@ import styles from "~/styles/app.css";
 import { AppLogo } from "./AppLogo";
 import { NotificationButton } from "./NotificationButton";
 import { ProfileAvatarMenu } from "./ProfileAvatarMenu";
-import { AppNavigationLink } from "./AppNavigationLink";
-import type { INavigationItem } from "./AppNavigationLink";
-import { MobileNavigationLink } from "./MobileNavigationLink";
+import { AppNavigationLink, MobileAppNavigationLink } from "./AppNavigationLink";
+import { demoUser, appNavigation, userNavigation } from "~/meta";
+import type { INavigationItem, IUserProfile } from "~/meta";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
-
-export type IUserProfile = {
-  name: string;
-  imageUrl: string;
-  email: string;
-};
-
-export const user: IUserProfile = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
-
-const navigation: INavigationItem[] = [
-  { name: "Dashboard", to: "/", selected: true },
-  { name: "Blog", to: "/blog", selected: false },
-  { name: "Other", to: "/other", selected: false },
-];
-export const userNavigation: INavigationItem[] = [
-  { name: "Your Profile", to: "#" },
-  { name: "Settings", to: "#" },
-  { name: "Sign out", to: "#" },
-];
 
 type IAppHeaderProps = {
   selectedScreenName: string;
@@ -107,7 +83,7 @@ export function AppHeader({
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item: INavigationItem) => (
+                    {appNavigation.map((item: INavigationItem) => (
                       <AppNavigationLink
                         key={item.name}
                         {...item}
@@ -123,7 +99,7 @@ export function AppHeader({
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <NotificationButton />
-                  <ProfileAvatarMenu {...user}/>
+                  <ProfileAvatarMenu {...demoUser}/>
                 </div>
               </div>
               <div className="-mr-2 flex md:hidden">
@@ -134,8 +110,8 @@ export function AppHeader({
 
           <Disclosure.Panel className="md:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              {navigation.map((item) => (
-                <MobileNavigationLink
+              {appNavigation.map((item) => (
+                <MobileAppNavigationLink
                   key={item.name}
                   {...item}
                   selected={compareScreenName(item.name, selectedScreenName)}
@@ -144,7 +120,7 @@ export function AppHeader({
             </div>
             <div className="border-t border-gray-700 pt-4 pb-3">
               <div className="flex items-center px-5">
-                <MobileUserProfile {...user} />
+                <MobileUserProfile {...demoUser} />
                 <NotificationButton className="ml-auto flex-shrink-0" />
               </div>
               <div className="mt-3 space-y-1 px-2">
