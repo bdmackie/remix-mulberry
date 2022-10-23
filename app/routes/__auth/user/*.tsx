@@ -1,12 +1,14 @@
 import { UserProfile } from "@clerk/remix";
-import UserNav from "~/components/UserNav";
+import { Link } from "@remix-run/react";
+// import UserNav from "~/components/UserNav";
 
 const UserPage = () => (
-  <div className="flex">
-    {/* <div className="flex-none sm:w-40">
-        <UserNav/>
-    </div> */}
-    {/* <div className="min-h-screen flex-1 flex justify-center content-center"> */}
+  <div className="flex flex-col">
+    <div className="flex-none h-5 justify-start content-center">
+        {/* <UserNav/> */}
+        <Link to="/">Return Home</Link>
+    </div>
+    <div className="flex-1 justify-start">
       <UserProfile
         path="/user"
         routing="path"
@@ -23,7 +25,7 @@ const UserPage = () => (
           },
         }}
       />
-    {/* </div> */}
+    </div>
   </div>
 );
 

@@ -1,14 +1,13 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { UserButton } from "@clerk/remix";
+import { useUser, UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/remix";
 import styles from "~/styles/app.css";
 import { AppLogo } from "./AppLogo";
-import { NotificationButton } from "./NotificationButton";
 import {
   AppNavigationLink,
   MobileAppNavigationLink,
 } from "./AppNavigationLink";
-import { demoUser, appNavigation, userNavigation } from "~/meta";
+import { appNavigation, userNavigation } from "~/meta";
 import type { INavigationItem, IUserProfile } from "~/meta";
 
 export function links() {
@@ -43,7 +42,6 @@ function AppMobileMenu({ open }: IAppMobileProps) {
 function MobileUserProfile({ name, imageUrl, email }: IUserProfile) {
   return (
     <>
-      <UserButton />
       <div className="flex-shrink-0">
         <img className="h-10 w-10 rounded-full" src={imageUrl} alt="" />
       </div>
@@ -74,6 +72,7 @@ function MobileUserNavigationLink({ name, to }: INavigationItem) {
 export function AppHeader({
   selectedScreenName = "dashboard",
 }: IAppHeaderProps) {
+  const { user } = useUser();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -100,8 +99,13 @@ export function AppHeader({
                 </div>
               </div>
               <div className="hidden md:block">
-                <div className="ml-4 flex items-center md:ml-6">
-                  <UserButton />
+                <div className="ml-4 flex items-center md:ml-6 text-white">
+                  <SignedOut>
+                    <SignInButton/>
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
                 </div>
               </div>
               <div className="-mr-2 flex md:hidden">
@@ -122,8 +126,11 @@ export function AppHeader({
             </div>
             <div className="border-t border-gray-700 pt-4 pb-3">
               <div className="flex items-center px-5">
-                <MobileUserProfile {...demoUser} />
-                <NotificationButton className="ml-auto flex-shrink-0" />
+                <MobileUserProfile
+                  name={user?.fullName as string}
+                  imageUrl={user?.profileImageUrl as string}
+                  email={user?.primaryEmailAddress?.toString() as string}
+                />
               </div>
               <div className="mt-3 space-y-1 px-2">
                 {userNavigation.map((item) => (
