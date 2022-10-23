@@ -1,6 +1,13 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useUser, UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/remix";
+import {
+  useAuth,
+  useUser,
+  UserButton,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/remix";
 import styles from "~/styles/app.css";
 import { AppLogo } from "./AppLogo";
 import {
@@ -72,6 +79,7 @@ function MobileUserNavigationLink({ name, to }: INavigationItem) {
 export function AppHeader({
   selectedScreenName = "dashboard",
 }: IAppHeaderProps) {
+  const { isSignedIn } = useAuth();
   const { user } = useUser();
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -101,7 +109,7 @@ export function AppHeader({
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6 text-white">
                   <SignedOut>
-                    <SignInButton/>
+                    <SignInButton />
                   </SignedOut>
                   <SignedIn>
                     <UserButton />
@@ -125,17 +133,21 @@ export function AppHeader({
               ))}
             </div>
             <div className="border-t border-gray-700 pt-4 pb-3">
-              <div className="flex items-center px-5">
-                <MobileUserProfile
-                  name={user?.fullName as string}
-                  imageUrl={user?.profileImageUrl as string}
-                  email={user?.primaryEmailAddress?.toString() as string}
-                />
-              </div>
+              <SignedIn>
+                <div className="flex items-center px-5">
+                  <MobileUserProfile
+                    name={user?.fullName as string}
+                    imageUrl={user?.profileImageUrl as string}
+                    email={user?.primaryEmailAddress?.toString() as string}
+                  />
+                </div>
+              </SignedIn>
               <div className="mt-3 space-y-1 px-2">
-                {userNavigation.map((item) => (
-                  <MobileUserNavigationLink key={item.name} {...item} />
-                ))}
+                {userNavigation.map((item) => {
+                  if (item.signedIn && !isSignedIn) return undefined;
+                  if (item.signedOut && isSignedIn) return undefined;
+                  return <MobileUserNavigationLink key={item.name} {...item} />;
+                })}
               </div>
             </div>
           </Disclosure.Panel>

@@ -44,6 +44,8 @@ export type INavigationItem = {
   name: string;
   to: string;
   selected?: boolean;
+  signedIn?: boolean;
+  signedOut?: boolean;
 };
 
 export const appNavigation: INavigationItem[] = [
@@ -53,6 +55,7 @@ export const appNavigation: INavigationItem[] = [
 ];
 
 export const userNavigation: INavigationItem[] = [
-  { name: "Your Account", to: "/user" },
-  { name: "Sign out", to: "/sign-out" },
+  { name: "Your Account", to: "/user", signedIn: true },
+  { name: "Sign out", to: "/sign-out", signedIn: true },
+  { name: "Sign in", to: "/sign-in", signedOut: true },
 ];
