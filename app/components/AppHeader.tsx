@@ -1,11 +1,13 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import { UserButton } from "@clerk/remix";
 import styles from "~/styles/app.css";
 import { AppLogo } from "./AppLogo";
 import { NotificationButton } from "./NotificationButton";
-import { ProfileAvatarMenu } from "./ProfileAvatarMenu";
-import { AppNavigationLink, MobileAppNavigationLink } from "./AppNavigationLink";
+import {
+  AppNavigationLink,
+  MobileAppNavigationLink,
+} from "./AppNavigationLink";
 import { demoUser, appNavigation, userNavigation } from "~/meta";
 import type { INavigationItem, IUserProfile } from "~/meta";
 
@@ -41,6 +43,7 @@ function AppMobileMenu({ open }: IAppMobileProps) {
 function MobileUserProfile({ name, imageUrl, email }: IUserProfile) {
   return (
     <>
+      <UserButton />
       <div className="flex-shrink-0">
         <img className="h-10 w-10 rounded-full" src={imageUrl} alt="" />
       </div>
@@ -56,7 +59,7 @@ function MobileUserProfile({ name, imageUrl, email }: IUserProfile) {
   );
 }
 
-function MobileUserNavigationLink({name, to}: INavigationItem) {
+function MobileUserNavigationLink({ name, to }: INavigationItem) {
   return (
     <Disclosure.Button
       as="a"
@@ -98,8 +101,7 @@ export function AppHeader({
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                  <NotificationButton />
-                  <ProfileAvatarMenu {...demoUser}/>
+                  <UserButton />
                 </div>
               </div>
               <div className="-mr-2 flex md:hidden">
@@ -125,10 +127,7 @@ export function AppHeader({
               </div>
               <div className="mt-3 space-y-1 px-2">
                 {userNavigation.map((item) => (
-                  <MobileUserNavigationLink
-                    key={item.name}
-                    {...item}
-                  />
+                  <MobileUserNavigationLink key={item.name} {...item} />
                 ))}
               </div>
             </div>

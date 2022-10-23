@@ -8,15 +8,21 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import type { LoaderFunction } from "@remix-run/node";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { genMeta } from "./meta";
 import styles from "~/styles/app.css";
+import { ClerkApp } from "@clerk/remix";
+import { ClerkCatchBoundary } from "@clerk/remix";
 
 export const meta: MetaFunction = genMeta("");
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
 
-export default function App() {
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+function App() {
   return (
     <html lang="en" className="h-full b-gray-100">
       <head>
@@ -27,7 +33,6 @@ export default function App() {
         <div className="min-h-full">
           <Outlet/>
         </div>
-
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
@@ -35,3 +40,7 @@ export default function App() {
     </html>
   );
 }
+export default ClerkApp(App);
+
+// define boundary
+export const CatchBoundary = ClerkCatchBoundary();

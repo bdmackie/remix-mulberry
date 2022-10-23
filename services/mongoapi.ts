@@ -5,8 +5,8 @@ export type IMongoApiInit = {
   appId: string;
   region?: string;
   apiKey: string;
-  databaseName: string;
   clusterName: string;
+  databaseName: string;
 };
 
 type MongoResopnseData = {

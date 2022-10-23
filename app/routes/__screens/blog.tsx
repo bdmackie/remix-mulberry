@@ -1,7 +1,8 @@
-import { json } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 // import { SignIn } from '@clerk/remix'
 import type { MetaFunction, LoaderArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { getAuth } from "@clerk/remix/ssr.server";
 
 import { genMeta } from '~/meta';
 import { setAppServices } from "context";
@@ -21,7 +22,12 @@ type LoaderData = {
 //   { _id: '3', title: 'Blog post C', body: 'Lorum Ipsum' },
 // ]
 
-export const loader = async ({ context }: LoaderArgs) => {
+
+export const loader = async ({ request, context }: LoaderArgs) => {
+  const { userId } = await getAuth(request);
+  if(!userId){
+    return redirect("/sign-in");
+  }
   const data: LoaderData = {posts: await setAppServices(context).post.getPosts()}
   return json(data)
 }

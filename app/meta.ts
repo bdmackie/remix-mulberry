@@ -53,7 +53,7 @@ export const appNavigation: INavigationItem[] = [
 ];
 
 export const userNavigation: INavigationItem[] = [
-  { name: "Your Profile", to: "#" },
+  { name: "Your Profile", to: "/user" },
   { name: "Settings", to: "#" },
   { name: "Sign out", to: "#" },
 ];

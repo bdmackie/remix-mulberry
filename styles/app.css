@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.border-debug {
+    @apply border-solid border-blue-500 sm:border-yellow-500 md:border-orange-500 lg:border-red-500 border-4
+}
